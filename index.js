@@ -135,6 +135,7 @@ const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const { v4: uuidv4 } = require('uuid');
 
 // In-memory submission storage
 let submissions = [];
@@ -183,9 +184,8 @@ app.post('/submit', (req, res) => {
         message: 'Missing required fields: name, email, and phone are required',
       });
     }
-
     const newSubmission = {
-      id: Date.now().toString(),
+      id: uuidv4(), // Unique ID for each person
       name,
       email,
       phone,
@@ -255,11 +255,12 @@ app.use((err, req, res, next) => {
   });
 });
 
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
-  console.log('- GET /submissions - Get all submissions');
-  console.log('- POST /submit - Create new submission');
-  console.log('- GET /submissions/:id - Get submission by ID');
-  console.log('- GET /test - API health check');
+  // console.log('- GET /submissions - Get all submissions');
+  // console.log('- POST /submit - Create new submission');
+  // console.log('- GET /submissions/:id - Get submission by ID');
+  // console.log('- GET /test - API health check');
 });
